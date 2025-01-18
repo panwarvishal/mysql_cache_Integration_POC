@@ -1,0 +1,37 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: candid-ms
+
+external-service:
+  base-url: http://localhost:8085
+  api-key: YOUR_API_KEY
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      userClient:
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 1
+        failureRateThreshold: 100
+        record-exceptions:
+          - java.net.ConnectException
+          - java.net.SocketTimeoutException
+logging:
+  level:
+    io.github.resilience4j.circuitbreaker: DEBUG
+#resilience4j:
+#  circuitbreaker:
+#    instances:
+#      userClient:
+#        registerHealthIndicator: true
+#        slidingWindowSize: 10
+#        failureRateThreshold: 50
+#        waitDurationInOpenState: 5s
+#        permittedNumberOfCallsInHalfOpenState: 3
+#        minimumNumberOfCalls: 5
+#        record-exceptions:
+#          - java.net.ConnectException
+
